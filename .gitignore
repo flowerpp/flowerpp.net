@@ -9,10 +9,20 @@ bin
 tmp
 .history
 dist
-/.idea
 *.iml
 /**/.bak
 .classpath
 .project
 .settings
 .metadata
+
+# IDE specific
+.idea/
+.vscode/
+resources/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node
+node_modules/
