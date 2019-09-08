@@ -28,8 +28,8 @@ interests:
 education:
   courses:
   - course: 软件工程
-      institution: 北京师范大学
-      year: 2016
+    institution: 北京师范大学
+    year: 2016
   - course: 工业分析
     institution: 武汉工程大学
     year: 2000
