@@ -11,7 +11,7 @@
 [zh]
   languageCode = "zh-Hans"
 #  contentDir = "content/zh"
-  title = "Flowerpp"
+  title = "FLOWERPP"
   [zh.params]
     description = "Flowerpp的站点"
 
