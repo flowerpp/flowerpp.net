@@ -18,7 +18,7 @@ organizations:
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio: 爱好Coding、Kubernetes、微服务、DevOps
 
 interests:
 - 微服务
@@ -48,6 +48,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/flowerpp
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/in/flowerpp/  
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  
 # - icon: cv
@@ -64,4 +67,4 @@ user_groups:
 - Visitors
 ---
 
-今天有点累，去写点代码放松下！
+今天有点累，去Coding放松下！
