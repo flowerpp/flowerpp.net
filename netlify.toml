@@ -1,5 +1,5 @@
 [build]
-  command = "hugo --gc --minify -b $URL"
+  command = "export BUILD_TIME=`date '+%Y-%m-%d %H:%M:%S'`  &&  hugo --gc --minify -b $URL && echo $BUILD_TIME"
   publish = "public"
 
 [build.environment]
