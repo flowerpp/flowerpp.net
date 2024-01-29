@@ -44,6 +44,8 @@ DevOps，研发效能&基础架构会是我后面的一个主要方向。
 现在重新拉起flowerpp.org这个基于我的网名的网站，就当是立个flag吧。
 
 BTW：解释下flowerpp，这是我上学时给自己起的网名，当时我喜欢养花和乒乓，对这两项一静一动爱好，极其狂热。
-详细见我<a href="http://flowerpp.github.io">当年的个人主页 （博客）</a>的碎碎念。
+详细见我<a href="https://flowerpp96.github.io/">当年大学时光的个人主页 （博客）</a>的碎碎念。
+
+同时祝我闺女壮壮生日快乐：<a href="https://flowerpp.github.io/">壮壮和爸爸的井字棋游戏大战</a>
 
 是为，开博第一篇。
