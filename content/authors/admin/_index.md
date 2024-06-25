@@ -1,6 +1,6 @@
 ---
 # Display name
-name: 冯存华
+name: CunHua Feng
 
 # Username (this should match the folder name)
 authors:
