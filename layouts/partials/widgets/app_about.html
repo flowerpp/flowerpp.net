@@ -1,0 +1,23 @@
+{{/* App 关于区：与 App 内「关于」一致的 Logo + 名称 + 副标题 + 标语。
+     Logo 二选一：logo（产品页 bundle 内的图片文件名）或 logo_icon + logo_color（Font Awesome 图标画在圆角色块上） */}}
+{{ $root := .root }}
+{{ $page := .page }}
+
+<div class="app-about text-center">
+  {{ with $page.Params.logo }}
+    {{ with $root.Resources.GetMatch . }}
+      {{ $img := .Resize "256x" }}
+      <img class="app-logo" src="{{ $img.RelPermalink }}" width="128" height="128" alt="{{ $page.Title }}">
+    {{ end }}
+  {{ else }}
+    {{ with $page.Params.logo_icon }}
+    {{ $pack := $page.Params.logo_icon_pack | default "fas" }}
+    <div class="app-logo app-logo-tile" style="background-color: {{ $page.Params.logo_color | default "#3f51b5" | safeCSS }};">
+      <i class="{{ $pack }} fa-{{ . }}" aria-hidden="true"></i>
+    </div>
+    {{ end }}
+  {{ end }}
+  <h1 class="app-name">{{ $page.Title }}</h1>
+  {{ with $page.Params.subtitle }}<p class="app-subtitle">{{ . }}</p>{{ end }}
+  {{ with $page.Params.slogan }}<p class="app-slogan">{{ . }}</p>{{ end }}
+</div>

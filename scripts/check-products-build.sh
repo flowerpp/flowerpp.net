@@ -38,16 +38,33 @@ else
   fail "#9 原有菜单项链接缺失:$missing"
 fi
 
-# 断言 #1：导航含「我的产品」下拉，依次含两个子项
+# 断言 #1：导航含「我的作品」下拉（排在「关于」前面），依次含两个子项
 menu=$(grep -o 'dropdown-menu.*' <<<"$home" | head -1)
 w=$(grep -bo 'href="/product/pp-writer/"' <<<"$menu" | head -1 | cut -d: -f1)
 r=$(grep -bo 'href="/product/pp-runner/"' <<<"$menu" | head -1 | cut -d: -f1)
-if grep -q '我的产品' <<<"$home" && [ -n "$w" ] && [ -n "$r" ] && [ "$w" -lt "$r" ] \
+works=$(grep -bo '<span>我的作品</span>' <<<"$home" | head -1 | cut -d: -f1)
+about=$(grep -bo '<span>关于</span>' <<<"$home" | head -1 | cut -d: -f1)
+if [ -n "$works" ] && [ -n "$about" ] && [ "$works" -lt "$about" ] && [ -n "$w" ] && [ -n "$r" ] && [ "$w" -lt "$r" ] \
    && grep -q '小纸条（PP-Writer）' <<<"$menu" && grep -q '跑步（PP-Runner）' <<<"$menu"; then
-  pass "#1 导航含「我的产品」下拉，依次为小纸条、跑步"
+  pass "#1 导航含「我的作品」下拉且在「关于」前面，依次为小纸条、跑步"
 else
-  fail "#1 导航缺少「我的产品」下拉或子项顺序/文字不对"
+  fail "#1 导航「我的作品」下拉缺失、位置不在「关于」前，或子项顺序/文字不对"
 fi
+
+# 断言 #12：产品页第一个区块是 App 关于区（Logo + 名称 + 副标题 + 标语）
+for p in $PRODUCTS; do
+  f="$OUT/product/$p/index.html"
+  [ -f "$f" ] || continue
+  page=$(flat "$f")
+  first=$(grep -oE '<section id="[a-z_-]+"' <<<"$page" | head -1)
+  info=$(sed -n 's/.*id="appinfo"\(.*\)/\1/p' <<<"$page" | sed 's/<\/section>.*//')
+  if [ "$first" = '<section id="appinfo"' ] && grep -q 'app-logo' <<<"$info" \
+     && grep -q 'app-name' <<<"$info" && grep -q 'app-subtitle' <<<"$info" && grep -q 'app-slogan' <<<"$info"; then
+    pass "#12 /product/$p/ 第一个区块是 App 关于区（Logo、名称、副标题、标语齐全）"
+  else
+    fail "#12 /product/$p/ 第一个区块不是完整的 App 关于区（第一个区块: ${first:-无}）"
+  fi
+done
 
 # 断言 #2：两个产品页存在
 for p in $PRODUCTS; do

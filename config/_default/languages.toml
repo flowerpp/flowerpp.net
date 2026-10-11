@@ -29,12 +29,12 @@
   [[zh.menu.main]]
     name = "关于"
     url = "#about"
-    weight = 3
+    weight = 4
 
   [[zh.menu.main]]
-    name = "我的产品"
+    name = "我的作品"
     identifier = "products"
-    weight = 4
+    weight = 3
 
   [[zh.menu.main]]
     name = "小纸条（PP-Writer）"

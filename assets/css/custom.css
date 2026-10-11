@@ -79,3 +79,39 @@
 .dark .release-tag-new { background-color: #5c6bc0; }
 .dark .release-tag-improve { background-color: #43a047; }
 .dark .release-tag-fix { background-color: #ef6c00; }
+
+/* App 关于区：与 App 内「关于」弹窗一致 */
+.app-about .app-logo {
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 1.25rem;
+}
+.app-about .app-logo-tile {
+  width: 96px;
+  height: 96px;
+  margin-top: 16px;
+  margin-bottom: 1.75rem;
+  border-radius: 26px;
+  box-shadow: 0 12px 32px rgba(74, 143, 232, .33);
+  color: #fff;
+  font-size: 50px;
+  line-height: 96px;
+}
+.app-about .app-name {
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+.app-about .app-subtitle {
+  font-size: 1.15rem;
+  color: rgba(0, 0, 0, .55);
+  margin-bottom: .25rem;
+}
+.app-about .app-slogan {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, .45);
+  letter-spacing: .15em;
+  margin-bottom: 0;
+}
+.dark .app-about .app-subtitle { color: rgba(255, 255, 255, .7); }
+.dark .app-about .app-slogan { color: rgba(255, 255, 255, .55); }

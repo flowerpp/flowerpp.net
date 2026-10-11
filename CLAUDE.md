@@ -56,8 +56,8 @@ Hugo 会合并两者，且**根目录 `config.toml` 优先**。两处 baseurl �
 - 个人信息和 About 内容在 `content/authors/admin/_index.md`（头像是同目录下的 `avatar.png`）。
 - `content/` 下的 `project`、`publication`、`talk`、`courses`、`slides` 等大多是 Academic 自带的示例内容，首页没有启用。
 
-### 我的产品与 Releases
-- 产品页：`content/product/<product>/`（`pp-writer`、`pp-runner`），`index.md` 是 `type: widget_page`，同目录的 `hero.md`、`intro.md`（featurette）、`download.md`、`whatsnew.md` 是页面区块，区块的页内锚点就是文件名。
+### 我的作品（产品页）与 Releases
+- 产品页：`content/product/<product>/`（`pp-writer`、`pp-runner`），`index.md` 是 `type: widget_page`，同目录的 `appinfo.md`（App 关于区：Logo、名称、副标题、标语，模板 `app_about`）、`hero.md`、`intro.md`（featurette）、`download.md`、`whatsnew.md` 是页面区块，区块的页内锚点就是文件名。
 - **区块里的页内链接要写完整路径**（如 `/product/pp-writer/#whatsnew`），不能只写 `#whatsnew`：主题的 hero 等 widget 会对链接做 `relLangURL`，`#whatsnew` 会变成 `/#whatsnew`，跳到首页去。`check-products-build.sh` 断言 #11 会检查这一点。
 - 改完页面后在浏览器里检查时，**每个新增的按钮和链接都要实际点一次**，不能只看页面显示是否正常。
 - Releases：`content/releases/<product>/<YYYY>-w<WW>/index.md`，每周一次发布。功能小节写在 front matter 的 `items`（`id`、`category`、`summary`、`detail`）里，**这是唯一来源**：产品页「新功能」显示 `summary` 并链接到 `详情页#id`，详情页显示 `detail`。格式见 `specs/001-my-products-menu/contracts/content-schema.md`。

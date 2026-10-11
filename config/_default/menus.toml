@@ -16,12 +16,12 @@
 [[main]]
   name = "关于"
   url = "#about"
-  weight = 30
+  weight = 40
 
 [[main]]
-  name = "我的产品"
+  name = "我的作品"
   identifier = "products"
-  weight = 40
+  weight = 30
 
 [[main]]
   name = "小纸条（PP-Writer）"
