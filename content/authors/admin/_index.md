@@ -1,6 +1,6 @@
 ---
 # Display name
-name: CunHua Feng
+name: Flowerpp
 
 # Username (this should match the folder name)
 authors:
@@ -51,9 +51,6 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/flowerpp
-- icon: linkedin
-  icon_pack: fab
-  link: https://www.linkedin.com/in/flowerpp/  
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  
 # - icon: cv
