@@ -140,7 +140,7 @@ description: "我的产品栏目 —— 任务清单"
 - [X] T041 [P] 更新 `CLAUDE.md`：补充产品页（`content/product/` widget page）、Releases（`content/releases/`、front matter `items` 是「新功能」与详情的单一来源）、两个检查脚本和本地敏感词表的说明，以及「站点生效的菜单在 `languages.toml`」
 - [X] T042 按 `specs/001-my-products-menu/quickstart.md` 完整走一遍第 1–3 步并记录结果
 - [X] T043 最终检查：`git status` 确认 `scripts/public-content-denylist.local.txt` 未被跟踪、`themes/academic/` 无改动、`resources/_gen/` 无删除；对将要提交的全部文件（含 `specs/`）执行一次扫描（`scripts/check-public-content.sh specs content/product content/releases`）
-- [ ] T044 提交前向站长确认，push 到 `master` 后在 Netlify 查看构建日志（扫描步骤通过），并打开 https://flowerpp.com/product/pp-writer/ 、`/product/pp-runner/`、`/releases/pp-writer/` 确认线上效果
+- [X] T044 提交前向站长确认，push 到 `master` 后在 Netlify 查看构建日志（扫描步骤通过），并打开 https://flowerpp.com/product/pp-writer/ 、`/product/pp-runner/`、`/releases/pp-writer/` 确认线上效果
 
 ---
 

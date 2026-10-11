@@ -4,7 +4,7 @@
 
 **Created**: 2026-10-11
 
-**Status**: Draft
+**Status**: Done（2026-10-11 验收通过）
 
 **Input**: User description: "增加 我的产品 栏目，下拉菜单：小纸条（PP-Writer）、跑步（PP-Runner）。每个产品介绍三部分：1、产品介绍：https://mubu.com/home 2、下载：https://mubu.com/apps 3、新功能：https://mubu.com/doc/d5501245199?autoHide=1 。新功能的内容取我另一个 claude code 项目 pp-cloud 下的开发历史或者 spec"；补充：「再增加一个 Releases 的栏目（参考：https://www.notion.com/releases，相当于新功能的详细版本）」
 
