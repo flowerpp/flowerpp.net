@@ -20,7 +20,8 @@ hugo55 new post/<slug>/index.md   # 新建博文（page bundle 形式）
 
 ### Hugo 版本（重要）
 
-- **必须用 `hugo55`**（`/Users/flowerpp/work/tools/hugo55/hugo55`，v0.55.6），与 Netlify 上的 `HUGO_VERSION = "0.55.6"` 一致。
+- **必须用 `hugo55`**（`/Users/flowerpp/work/tools/hugo55/hugo55`，v0.55.6），与 Netlify 构建版本一致。
+- Netlify 上**不能用 `HUGO_VERSION`**：官方 0.55.6 的 checksums 文件里没有 extended 版条目，Netlify 用 mise 安装会失败。所以 `netlify.toml` 的构建命令改成自己下载 extended 包，校验写死的 sha256 后再用它构建。
 - PATH 里的 `hugo` 是 v0.123，**跑不起来本站**：Academic 4.4 模板与新版不兼容，而且 `layouts/partials/site_footer.html` 里的 `getenv "BUILD_TIME"` 会被新版 Hugo 的 `security.funcs.getenv` 策略拦截。
 - 本地构建**不要加 `--gc`**：`resources/_gen/` 已经提交进 git（尽管 `.gitignore` 里写了 `resources/`），`--gc` 会删掉这些已跟踪的缓存文件。万一删了，用 `git checkout -- resources/` 恢复。
 - `public/` 是构建产物，已加入 `.gitignore`。
