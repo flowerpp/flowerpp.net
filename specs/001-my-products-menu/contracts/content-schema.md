@@ -16,7 +16,7 @@ type: widget_page                   # 必填：按区块渲染
 
 | 文件 | `widget` | `weight` | 页内锚点 | 说明 |
 |------|----------|----------|----------|------|
-| `hero.md` | `hero`（主题自带） | 10 | `#hero` | 产品名 + 一句话定位；`cta` → `#download`，`cta_alt` → `#whatsnew` |
+| `hero.md` | `hero`（主题自带） | 10 | `#hero` | 产品名 + 一句话定位；`cta` → `/product/<product>/#download`，`cta_alt` → `/product/<product>/#whatsnew`（必须写完整路径：主题会对链接做 `relLangURL`，只写 `#download` 会变成首页的 `/#download`） |
 | `intro.md` | `featurette`（主题自带） | 20 | `#intro` | `title: 产品介绍`；`feature[]` 3–6 项 |
 | `download.md` | `download`（新增） | 30 | `#download` | 见下 |
 | `whatsnew.md` | `release_notes`（新增） | 40 | `#whatsnew` | 见下 |

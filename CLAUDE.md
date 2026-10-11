@@ -58,6 +58,8 @@ Hugo 会合并两者，且**根目录 `config.toml` 优先**。两处 baseurl �
 
 ### 我的产品与 Releases
 - 产品页：`content/product/<product>/`（`pp-writer`、`pp-runner`），`index.md` 是 `type: widget_page`，同目录的 `hero.md`、`intro.md`（featurette）、`download.md`、`whatsnew.md` 是页面区块，区块的页内锚点就是文件名。
+- **区块里的页内链接要写完整路径**（如 `/product/pp-writer/#whatsnew`），不能只写 `#whatsnew`：主题的 hero 等 widget 会对链接做 `relLangURL`，`#whatsnew` 会变成 `/#whatsnew`，跳到首页去。`check-products-build.sh` 断言 #11 会检查这一点。
+- 改完页面后在浏览器里检查时，**每个新增的按钮和链接都要实际点一次**，不能只看页面显示是否正常。
 - Releases：`content/releases/<product>/<YYYY>-w<WW>/index.md`，每周一次发布。功能小节写在 front matter 的 `items`（`id`、`category`、`summary`、`detail`）里，**这是唯一来源**：产品页「新功能」显示 `summary` 并链接到 `详情页#id`，详情页显示 `detail`。格式见 `specs/001-my-products-menu/contracts/content-schema.md`。
 - 自定义模板：`layouts/partials/widgets/{download,release_notes}.html`、`layouts/releases/{list,single}.html`；样式在 `assets/css/custom.css`（由 `params.toml` 的 `plugins_css = ["custom"]` 加载，暗色用 `.dark` 选择器）。不要改主题的 sass，否则已提交的 `resources/_gen/` 缓存会失效。
 - Releases 内容整理自私有项目 pp-cloud 的开发记录：新发布一律先写成 `draft: true`，站长审阅通过后再改为 `false`。

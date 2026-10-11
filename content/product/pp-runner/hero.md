@@ -6,12 +6,12 @@ weight: 10
 title: "跑步（PP-Runner）"
 cta:
   label: "了解下载"
-  url: "#download"
+  url: "/product/pp-runner/#download"
   icon_pack: fas
   icon: download
 cta_alt:
   label: "看看新功能"
-  url: "#whatsnew"
+  url: "/product/pp-runner/#whatsnew"
 ---
 记录每一次户外跑：轨迹、配速、天气一目了然，跑步数据安全保存在云端。
 

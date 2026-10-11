@@ -41,3 +41,4 @@
 | 8 | pp-writer 产品页的「新功能」链接全部指向 `/releases/pp-writer/`，pp-runner 同理 | User Story 3 场景 3 |
 | 9 | 首页仍含原有「最新博文」和「关于」区块，原有三个菜单项链接不变 | FR-011、SC-005 |
 | 10 | 页面中没有幕布（`mubu.com`）链接 | FR-004 |
+| 11 | 两个产品页标题区的「了解下载」「看看新功能」按钮分别指向本页 `/product/<product>/#download`、`#whatsnew`，且目标区块存在（发布前发现的缺陷：只写 `#xxx` 会被主题改成首页锚点） | FR-003 |

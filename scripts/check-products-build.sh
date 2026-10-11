@@ -136,6 +136,21 @@ for p in $PRODUCTS; do
   fi
 done
 
+# 断言 #11：标题区按钮跳到本页的「下载」「新功能」区块（不能变成首页锚点 /#xxx）
+for p in $PRODUCTS; do
+  f="$OUT/product/$p/index.html"
+  [ -f "$f" ] || continue
+  hero=$(flat "$f" | sed -n 's/.*id="hero"\(.*\)/\1/p' | sed 's/<\/section>.*//')
+  for anchor in download whatsnew; do
+    if grep -q "href=\"/product/$p/#$anchor\"" <<<"$hero" && grep -q "id=\"$anchor\"" "$f"; then
+      pass "#11 /product/$p/ 标题区按钮跳到本页 #$anchor"
+    else
+      got=$(grep -oE "href=\"[^\"]*#$anchor\"" <<<"$hero" | head -1)
+      fail "#11 /product/$p/ 标题区按钮没有跳到本页 #${anchor}（实际: ${got:-无}）"
+    fi
+  done
+done
+
 # 断言 #10：全站不含幕布链接
 hits=$(grep -rl 'mubu\.com' "$OUT" --include='*.html' 2>/dev/null | head -3)
 if [ -z "$hits" ]; then

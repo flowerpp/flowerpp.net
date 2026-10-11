@@ -6,12 +6,12 @@ weight: 10
 title: "小纸条（PP-Writer）"
 cta:
   label: "了解下载"
-  url: "#download"
+  url: "/product/pp-writer/#download"
   icon_pack: fas
   icon: download
 cta_alt:
   label: "看看新功能"
-  url: "#whatsnew"
+  url: "/product/pp-writer/#whatsnew"
 ---
 简洁、稳定的 Markdown 笔记：灵感随手记下，手机和电脑之间随时同步。
 
