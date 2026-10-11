@@ -115,3 +115,8 @@
 }
 .dark .app-about .app-subtitle { color: rgba(255, 255, 255, .7); }
 .dark .app-about .app-slogan { color: rgba(255, 255, 255, .55); }
+
+/* 产品页标题区：大标题与顶部 App 关于区重复，隐藏，只保留介绍文字和按钮 */
+.product-hero .hero-title {
+  display: none;
+}

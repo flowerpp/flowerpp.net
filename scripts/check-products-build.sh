@@ -168,6 +168,17 @@ for p in $PRODUCTS; do
   done
 done
 
+# 断言 #13：标题区不再显示与 App 关于区重复的大标题（区块带 product-hero 类，由 custom.css 隐藏 .hero-title）
+for p in $PRODUCTS; do
+  f="$OUT/product/$p/index.html"
+  [ -f "$f" ] || continue
+  if grep -qE '<section id="hero" class="[^"]*product-hero' "$f" && grep -rqs 'product-hero .hero-title' "$OUT"/css/; then
+    pass "#13 /product/$p/ 标题区隐藏了重复的大标题"
+  else
+    fail "#13 /product/$p/ 标题区仍显示重复的大标题"
+  fi
+done
+
 # 断言 #10：全站不含幕布链接
 hits=$(grep -rl 'mubu\.com' "$OUT" --include='*.html' 2>/dev/null | head -3)
 if [ -z "$hits" ]; then

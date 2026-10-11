@@ -3,6 +3,8 @@ widget: hero
 headless: true
 active: true
 weight: 10
+advanced:
+  css_class: product-hero   # 大标题由 custom.css 隐藏（与顶部 App 关于区重复）
 title: "跑步（PP-Runner）"
 cta:
   label: "了解下载"
