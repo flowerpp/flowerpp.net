@@ -1,0 +1,39 @@
+{{/* 「新功能」区块：读取 content/releases/<product>/ 下最近几次发布，每条摘要链接到发布详情页对应小节（与 Releases 同源） */}}
+{{ $page := .page }}
+{{ $product := $page.Params.product }}
+{{ $count := $page.Params.count | default 5 }}
+{{ $prefix := printf "releases/%s/" $product }}
+
+{{ $releases := slice }}
+{{ range where site.RegularPages "Section" "releases" }}
+  {{ if hasPrefix .File.Dir $prefix }}{{ $releases = $releases | append . }}{{ end }}
+{{ end }}
+
+<div class="row">
+  {{ with $page.Title }}
+  <div class="col-12 section-heading">
+    <h1>{{ . | markdownify | emojify }}</h1>
+    {{ with $page.Params.subtitle }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
+  </div>
+  {{ end }}
+
+  <div class="col-12">
+    {{ with $page.Content }}{{ . }}{{ end }}
+
+    {{ range first $count (sort $releases "Date" "desc") }}
+    {{ $release := . }}
+    <div class="release-notes-group">
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a> <small class="text-muted">{{ .Date.Format "2006-01-02" }}</small></h3>
+      <ul class="release-items">
+        {{ range .Params.items }}
+        <li><span class="release-tag release-tag-{{ index (dict "新功能" "new" "改进" "improve" "修复" "fix") .category }}">{{ .category }}</span><a href="{{ $release.RelPermalink }}#{{ .id }}">{{ .summary }}</a></li>
+        {{ end }}
+      </ul>
+    </div>
+    {{ else }}
+    <p class="text-muted">即将更新</p>
+    {{ end }}
+
+    <p class="mt-4"><a href="{{ printf "/releases/%s/" $product | relLangURL }}">查看全部 Releases<i class="fas fa-angle-right pl-1"></i></a></p>
+  </div>
+</div>

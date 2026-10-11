@@ -1,0 +1,45 @@
+{{- define "main" -}}
+{{/* 单次发布详情页：功能小节来自 front matter 的 items，每节以 item.id 为锚点（与产品页「新功能」摘要同源） */}}
+
+<article class="article releases">
+
+  {{ partial "page_header" . }}
+
+  <div class="article-container">
+
+    {{ with .Params.summary }}
+    <p class="lead">{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{ with .Content }}
+    <div class="article-style">{{ . }}</div>
+    {{ end }}
+
+    {{ range .Params.items }}
+    <section id="{{ .id }}" class="release-item">
+      <h2><span class="release-tag release-tag-{{ index (dict "新功能" "new" "改进" "improve" "修复" "fix") .category }}">{{ .category }}</span>{{ .summary }}</h2>
+      <div class="article-style">{{ .detail | markdownify }}</div>
+      {{ with .image }}
+        {{ with $.Resources.GetMatch . }}
+          {{ $img := .Resize "960x" }}
+          <figure><img src="{{ $img.RelPermalink }}" alt="" class="img-fluid"></figure>
+        {{ end }}
+      {{ end }}
+    </section>
+    {{ end }}
+
+    {{/* Hugo 0.55：PrevInSection 指向更早的发布，NextInSection 指向更新的发布 */}}
+    <nav class="release-pager d-flex justify-content-between">
+      <div>
+        {{ with .PrevInSection }}<a href="{{ .RelPermalink }}"><i class="fas fa-angle-left pr-1"></i>上一次：{{ .Title }}</a>{{ end }}
+      </div>
+      <div>
+        {{ with .NextInSection }}<a href="{{ .RelPermalink }}">下一次：{{ .Title }}<i class="fas fa-angle-right pl-1"></i></a>{{ end }}
+      </div>
+    </nav>
+    <p class="mt-3"><a href="{{ .Parent.RelPermalink }}">返回 {{ .Parent.Title }}</a></p>
+
+  </div>
+</article>
+
+{{- end -}}

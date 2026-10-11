@@ -26,3 +26,7 @@ resources/
 
 # Node
 node_modules/
+
+# 公开内容扫描的本地敏感词表（含具体敏感词，不提交）
+scripts/public-content-denylist.local.txt
+.gstack/

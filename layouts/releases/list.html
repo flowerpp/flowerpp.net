@@ -1,0 +1,44 @@
+{{- define "main" -}}
+{{/* Releases 列表页：/releases/ 总入口列出各产品；/releases/<product>/ 按时间倒序列出该产品的每次发布 */}}
+
+{{ partial "page_header.html" . }}
+
+<div class="universal-wrapper releases">
+
+  {{ with .Params.product_page }}
+  <p><a href="{{ . | relLangURL }}"><i class="fas fa-angle-left pr-1"></i>返回产品介绍</a></p>
+  {{ end }}
+
+  {{ with .Content }}
+  <div class="article-style">{{ . }}</div>
+  {{ end }}
+
+  {{ if .Sections }}
+    {{ range .Sections }}
+    <div class="release-card">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.summary }}<p class="text-muted mb-0">{{ . }}</p>{{ end }}
+    </div>
+    {{ end }}
+  {{ else }}
+    {{ range .Pages.ByDate.Reverse }}
+    <div class="release-card">
+      <div class="release-date text-muted">{{ .Date.Format "2006-01-02" }}</div>
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.summary }}<p>{{ . | markdownify }}</p>{{ end }}
+      {{ with .Params.items }}
+      <ul class="release-items">
+        {{ range . }}
+        <li><span class="release-tag release-tag-{{ index (dict "新功能" "new" "改进" "improve" "修复" "fix") .category }}">{{ .category }}</span>{{ .summary }}</li>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p class="text-muted">即将更新</p>
+    {{ end }}
+  {{ end }}
+
+</div>
+
+{{- end -}}

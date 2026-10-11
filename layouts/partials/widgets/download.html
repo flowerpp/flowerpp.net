@@ -1,0 +1,42 @@
+{{/* 下载区块：按平台列出获取方式。数据来自区块 front matter 的 platforms 数组（见 specs/001-my-products-menu/contracts/content-schema.md） */}}
+{{ $page := .page }}
+
+<div class="row">
+  {{ with $page.Title }}
+  <div class="col-12 section-heading">
+    <h1>{{ . | markdownify | emojify }}</h1>
+    {{ with $page.Params.subtitle }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
+  </div>
+  {{ end }}
+
+  {{ with $page.Content }}
+  <div class="col-12">{{ . }}</div>
+  {{ end }}
+
+  {{ range $page.Params.platforms }}
+  {{ $pack := .icon_pack | default "fab" }}
+  {{ $pack_prefix := $pack }}
+  {{ if in (slice "fab" "fas" "far" "fal") $pack }}{{ $pack_prefix = "fa" }}{{ end }}
+  <div class="col-12 col-md-6 mb-4">
+    <div class="card h-100 text-center download-card">
+      <div class="card-body">
+        {{ with .icon }}<div class="featurette-icon"><i class="{{ $pack }} {{ $pack_prefix }}-{{ . }}"></i></div>{{ end }}
+        <h3 class="card-title">{{ .name }}</h3>
+        {{ if and (eq .status "available") .url }}
+          <p class="text-muted mb-3">
+            {{ with .version }}版本 {{ . }}{{ end }}
+            {{ with .updated }} · 更新于 {{ dateFormat "2006-01-02" . }}{{ end }}
+          </p>
+          {{ with .note }}<p>{{ . | markdownify }}</p>{{ end }}
+          <a class="btn btn-primary download-btn" href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+            <i class="fas fa-download pr-1" aria-hidden="true"></i>下载
+          </a>
+        {{ else }}
+          <p class="mb-3">{{ .note | default "内测中，暂未开放下载" | markdownify }}</p>
+          <a class="btn btn-outline-primary" href="{{ "/#about" | relLangURL }}">联系我</a>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+  {{ end }}
+</div>

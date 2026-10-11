@@ -18,6 +18,23 @@
   url = "#about"
   weight = 30
 
+[[main]]
+  name = "我的产品"
+  identifier = "products"
+  weight = 40
+
+[[main]]
+  name = "小纸条（PP-Writer）"
+  parent = "products"
+  url = "/product/pp-writer/"
+  weight = 1
+
+[[main]]
+  name = "跑步（PP-Runner）"
+  parent = "products"
+  url = "/product/pp-runner/"
+  weight = 2
+
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.

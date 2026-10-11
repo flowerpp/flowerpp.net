@@ -1,8 +1,10 @@
+# 构建前先扫描公开内容中的内部信息（scripts/check-public-content.sh），命中则构建失败、不发布。
 # Hugo 0.55.6 extended 由构建命令自行下载并校验 sha256：
 # 官方 checksums 文件缺少 extended 条目，Netlify(mise) 通过 HUGO_VERSION 安装会失败，因此不设置 HUGO_VERSION。
 [build]
   command = """\
-    curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
+    bash scripts/check-public-content.sh \
+    && curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
     && echo "8962b8cdc0ca220da97293cea0bb1b31718cb4d99d0766be6865cb976b1c1805  /tmp/hugo.tgz" | sha256sum -c - \
     && tar xzf /tmp/hugo.tgz -C /tmp hugo \
     && export BUILD_TIME=`TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S'` \
@@ -17,14 +19,16 @@
 
 [context.deploy-preview]
   command = """\
-    curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
+    bash scripts/check-public-content.sh \
+    && curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
     && echo "8962b8cdc0ca220da97293cea0bb1b31718cb4d99d0766be6865cb976b1c1805  /tmp/hugo.tgz" | sha256sum -c - \
     && tar xzf /tmp/hugo.tgz -C /tmp hugo \
     && /tmp/hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"""
 
 [context.branch-deploy]
   command = """\
-    curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
+    bash scripts/check-public-content.sh \
+    && curl -sL -o /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.tar.gz \
     && echo "8962b8cdc0ca220da97293cea0bb1b31718cb4d99d0766be6865cb976b1c1805  /tmp/hugo.tgz" | sha256sum -c - \
     && tar xzf /tmp/hugo.tgz -C /tmp hugo \
     && /tmp/hugo --gc --minify -b $DEPLOY_PRIME_URL"""

@@ -1,0 +1,81 @@
+/* 「我的产品」栏目样式：Releases 列表/详情、下载卡片。通过 params.toml 的 plugins_css = ["custom"] 加载 */
+
+/* 分类标签：新功能 / 改进 / 修复 */
+.release-tag {
+  display: inline-block;
+  margin-right: .5rem;
+  padding: .1rem .5rem;
+  border-radius: .25rem;
+  font-size: .75em;
+  font-weight: 600;
+  line-height: 1.6;
+  vertical-align: middle;
+  color: #fff;
+  background-color: #3f51b5;
+}
+.release-tag-improve { background-color: #2e7d32; }
+.release-tag-fix { background-color: #e65100; }
+
+/* Releases 列表：每次发布一张卡片 */
+.release-card {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.release-card h2 {
+  margin-top: .25rem;
+  font-size: 1.5rem;
+}
+.release-date {
+  font-size: .9rem;
+}
+.release-items {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.release-items li {
+  margin: .4rem 0;
+}
+
+/* Releases 详情：每个功能小节 */
+.release-item {
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}
+.release-item h2 {
+  font-size: 1.4rem;
+}
+.release-pager {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+/* 产品页「新功能」摘要 */
+.release-notes-group {
+  margin-bottom: 1.5rem;
+}
+.release-notes-group h3 {
+  font-size: 1.2rem;
+  margin-bottom: .5rem;
+}
+
+/* 下载卡片 */
+.download-card {
+  border-color: rgba(0, 0, 0, .1);
+  background-color: transparent;
+}
+
+/* 暗色模式 */
+.dark .release-card,
+.dark .release-item,
+.dark .release-pager {
+  border-color: rgba(255, 255, 255, .15);
+}
+.dark .download-card {
+  border-color: rgba(255, 255, 255, .15);
+}
+.dark .release-tag-new { background-color: #5c6bc0; }
+.dark .release-tag-improve { background-color: #43a047; }
+.dark .release-tag-fix { background-color: #ef6c00; }

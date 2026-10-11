@@ -30,3 +30,20 @@
     name = "关于"
     url = "#about"
     weight = 3
+
+  [[zh.menu.main]]
+    name = "我的产品"
+    identifier = "products"
+    weight = 4
+
+  [[zh.menu.main]]
+    name = "小纸条（PP-Writer）"
+    parent = "products"
+    url = "/product/pp-writer/"
+    weight = 1
+
+  [[zh.menu.main]]
+    name = "跑步（PP-Runner）"
+    parent = "products"
+    url = "/product/pp-runner/"
+    weight = 2
