@@ -19,11 +19,23 @@
     <section id="{{ .id }}" class="release-item">
       <h2><span class="release-tag release-tag-{{ index (dict "新功能" "new" "改进" "improve" "修复" "fix") .category }}">{{ .category }}</span>{{ .summary }}</h2>
       <div class="article-style">{{ .detail | markdownify }}</div>
-      {{ with .image }}
-        {{ with $.Resources.GetMatch . }}
-          {{ $img := .Resize "960x" }}
-          <figure><img src="{{ $img.RelPermalink }}" alt="" class="img-fluid"></figure>
+      {{/* 配图：image（一张）或 images（多张，并排）。图片放在本次发布目录里；宽于 960 才缩小，竖图按手机截图尺寸显示 */}}
+      {{ $alt := .summary }}
+      {{ $files := slice }}
+      {{ with .image }}{{ $files = $files | append . }}{{ end }}
+      {{ with .images }}{{ range . }}{{ $files = $files | append . }}{{ end }}{{ end }}
+      {{ with $files }}
+      <div class="release-figures">
+        {{ range . }}
+          {{ with $.Resources.GetMatch . }}
+            {{ $img := . }}
+            {{ if gt .Width 960 }}{{ $img = .Resize "960x" }}{{ end }}
+            <figure class="release-figure{{ if gt .Height .Width }} is-portrait{{ end }}">
+              <img class="release-img" src="{{ $img.RelPermalink }}" alt="{{ $alt }}" loading="lazy">
+            </figure>
+          {{ end }}
         {{ end }}
+      </div>
       {{ end }}
     </section>
     {{ end }}

@@ -97,10 +97,11 @@ items:
     summary: "笔记可以加密锁定"        # 必填，≤ 40 字，用于产品页「新功能」
     detail: |                        # 必填，Markdown，2–4 句，用于详情页
       为私密笔记设置密码……
-    image: note-lock.png             # 可选，与 index.md 同目录的图片
+    image: note-lock.png             # 可选，与 index.md 同目录的图片（一张）
+    images: [home.png, home-dark.png] # 可选，多张并排；与 image 可同时用
 ---
 ```
 
 正文（front matter 之后）可以为空；如果有内容，显示在各功能小节之前作为引言。
 
-详情页渲染：标题、日期、概述，然后每个 item 一节（`<section id="<id>">`，小标题为 `summary`，带分类标签，正文为 `detail`，有 `image` 时配图），底部「上一次 / 下一次发布」和「返回 Releases 列表」。
+详情页渲染：标题、日期、概述，然后每个 item 一节（`<section id="<id>">`，小标题为 `summary`，带分类标签，正文为 `detail`，有 `image` / `images` 时配图：宽于 960px 才缩小，竖图按 240px 宽显示，多张并排），底部「上一次 / 下一次发布」和「返回 Releases 列表」。

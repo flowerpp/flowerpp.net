@@ -12,6 +12,7 @@ if [ -z "$OUT" ] || [ ! -f "$OUT/index.html" ]; then
 fi
 
 PRODUCTS="pp-writer pp-runner"
+SITE_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FAILED=0
 TOTAL=0
 
@@ -178,6 +179,25 @@ for p in $PRODUCTS; do
     fail "#13 /product/$p/ 标题区仍显示重复的大标题"
   fi
 done
+
+# 断言 #14：Releases 页里的图片都存在，且有配图的功能小节确实渲染出了图片
+missing=""
+imgs=0
+for f in $(find "$OUT/releases" -name index.html); do
+  for src in $(grep -oE '<img class="release-img[^"]*" src="[^"]+"' "$f" | sed -E 's/.*src="([^"]+)"/\1/'); do
+    imgs=$((imgs + 1))
+    case "$src" in http*) continue ;; esac
+    [ -f "$OUT$src" ] || missing="$missing $src"
+  done
+done
+expected=$(grep -rlE '^ *(image|images):' "$SITE_ROOT/content/releases" 2>/dev/null | wc -l | tr -d ' ')
+if [ -n "$missing" ]; then
+  fail "#14 Releases 页有图片文件不存在:$missing"
+elif [ "$expected" -gt 0 ] && [ "$imgs" -eq 0 ]; then
+  fail "#14 有 $expected 个发布配置了图片，但页面上没有渲染出任何图片"
+else
+  pass "#14 Releases 功能小节共 ${imgs} 张配图，全部存在"
+fi
 
 # 断言 #10：全站不含幕布链接
 hits=$(grep -rl 'mubu\.com' "$OUT" --include='*.html' 2>/dev/null | head -3)

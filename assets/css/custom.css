@@ -120,3 +120,31 @@
 .product-hero .hero-title {
   display: none;
 }
+
+/* Releases 配图：多张并排；竖图（手机截图）限宽，不放大 */
+.release-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.release-figure {
+  margin: 0;
+  flex: 1 1 100%;
+}
+.release-figure.is-portrait {
+  flex: 0 1 240px;
+}
+.release-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, .08);
+}
+.release-figure.is-portrait img {
+  border-radius: 20px;
+}
+.dark .release-figure img {
+  border-color: rgba(255, 255, 255, .15);
+}
