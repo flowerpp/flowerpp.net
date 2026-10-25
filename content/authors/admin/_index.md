@@ -21,9 +21,9 @@ organizations:
 bio: 爱好Coding、Kubernetes、微服务、DevOps
 
 interests:
-- 微服务
-- Kubernetes
-- DevOps
+-  跑步
+-  随写
+-  Coding
 
 # education:
 #   courses:
