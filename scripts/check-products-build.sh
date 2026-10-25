@@ -199,6 +199,39 @@ else
   pass "#14 Releases 功能小节共 ${imgs} 张配图，全部存在"
 fi
 
+# 断言 #15：App 关于区有入场动画；副标题打字机效果保留完整文字（无 JS / 搜索引擎可见）
+for p in $PRODUCTS; do
+  f="$OUT/product/$p/index.html"
+  [ -f "$f" ] || continue
+  info=$(flat "$f" | sed -n 's/.*id="appinfo"\(.*\)/\1/p' | sed 's/<\/section>.*//')
+  sub=$(grep -oE 'data-typewriter="[^"]+"' <<<"$info" | head -1 | sed 's/data-typewriter="//;s/"$//')
+  if grep -q 'app-about app-animate' <<<"$info" && [ -n "$sub" ] && grep -q "class=\"tw-ghost\">$sub<" <<<"$info"; then
+    pass "#15 /product/$p/ 关于区有入场动画，副标题「${sub}」打字机效果且保留完整文字"
+  else
+    fail "#15 /product/$p/ 关于区缺少入场动画或打字机副标题"
+  fi
+done
+
+# 断言 #16：截图展示区紧跟关于区，至少 3 张图，图片都存在，标签数与图片数一致
+for p in $PRODUCTS; do
+  f="$OUT/product/$p/index.html"
+  [ -f "$f" ] || continue
+  page=$(flat "$f")
+  order=$(grep -oE '<section id="[a-z_-]+"' <<<"$page" | head -2 | sed 's/.*id="//;s/"//' | tr '\n' ' ')
+  show=$(sed -n 's/.*id="showcase"\(.*\)/\1/p' <<<"$page" | sed 's/<\/section>.*//')
+  n=$(grep -oE '<img class="showcase-img' <<<"$show" | wc -l | tr -d ' ')
+  t=$(grep -oE 'class="showcase-tab[ "]' <<<"$show" | wc -l | tr -d ' ')
+  bad=""
+  for src in $(grep -oE '<img class="showcase-img[^"]*" src="[^"]+"' <<<"$show" | sed -E 's/.*src="([^"]+)"/\1/'); do
+    [ -f "$OUT$src" ] || bad="$bad $src"
+  done
+  if [ "$order" = "appinfo showcase " ] && [ "$n" -ge 3 ] && [ "$n" -eq "$t" ] && [ -z "$bad" ]; then
+    pass "#16 /product/$p/ 截图展示区紧跟关于区，${n} 张图、${t} 个标签，图片都存在"
+  else
+    fail "#16 /product/$p/ 截图展示区不符合要求（区块顺序: ${order}图片 ${n} 张，标签 ${t} 个，缺失:${bad:-无}）"
+  fi
+done
+
 # 断言 #10：全站不含幕布链接
 hits=$(grep -rl 'mubu\.com' "$OUT" --include='*.html' 2>/dev/null | head -3)
 if [ -z "$hits" ]; then

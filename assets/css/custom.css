@@ -148,3 +148,129 @@
 .dark .release-figure img {
   border-color: rgba(255, 255, 255, .15);
 }
+
+/* App 关于区入场动画：淡入上浮 → 副标题打字机 → 标语淡入 */
+@keyframes app-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes tw-blink {
+  50% { opacity: 0; }
+}
+.app-animate .anim-rise {
+  opacity: 0;
+  animation: app-rise .7s cubic-bezier(.2, .7, .2, 1) forwards;
+}
+.app-animate .anim-delay-1 { animation-delay: .15s; }
+.app-animate .anim-delay-3 { animation-delay: 1.7s; }
+.anim-typewriter {
+  position: relative;
+}
+.anim-typewriter .tw-live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.anim-typewriter.tw-running .tw-ghost { visibility: hidden; }
+.anim-typewriter.tw-running .tw-live::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -.15em;
+  background: currentColor;
+  animation: tw-blink 1s steps(1) infinite;
+}
+.anim-typewriter.tw-done .tw-ghost { visibility: visible; }
+.anim-typewriter.tw-done .tw-live { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .app-animate .anim-rise { opacity: 1; animation: none; transform: none; }
+}
+
+/* 产品截图展示：设备外框 + 截图交叉淡入 + 标签切换 */
+.showcase {
+  text-align: center;
+}
+.showcase-title {
+  margin-bottom: 2rem;
+}
+.showcase-frame {
+  position: relative;
+  margin: 0 auto;
+  background: #111;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .18);
+  overflow: hidden;
+}
+.showcase-phone .showcase-frame {
+  width: 300px;
+  max-width: 100%;
+  padding: 10px;
+  border-radius: 44px;
+}
+.showcase-phone .showcase-screen {
+  aspect-ratio: 390 / 844;
+  border-radius: 34px;
+}
+.showcase-mac .showcase-frame {
+  width: 960px;
+  max-width: 100%;
+  border-radius: 12px;
+  background: #ececec;
+  border: 1px solid rgba(0, 0, 0, .12);
+}
+.showcase-mac .showcase-screen {
+  aspect-ratio: 1440 / 900;
+}
+.showcase-screen {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+.showcase-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity .7s ease, transform .9s ease;
+}
+.showcase-img.is-active {
+  opacity: 1;
+  transform: none;
+}
+.showcase-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+.showcase-tab {
+  padding: .35rem 1rem;
+  border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.showcase-tab:hover {
+  border-color: #3f51b5;
+}
+.showcase-tab.is-active {
+  background: #3f51b5;
+  border-color: #3f51b5;
+  color: #fff;
+}
+.dark .showcase-tab { border-color: rgba(255, 255, 255, .2); }
+.dark .showcase-tab.is-active { background: #5c6bc0; border-color: #5c6bc0; }
+.dark .showcase-mac .showcase-frame { background: #2a2a2a; border-color: rgba(255, 255, 255, .12); }
+@media (prefers-reduced-motion: reduce) {
+  .showcase-img { transition: none; transform: none; }
+}

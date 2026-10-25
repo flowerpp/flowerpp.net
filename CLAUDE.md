@@ -57,9 +57,10 @@ Hugo 会合并两者，且**根目录 `config.toml` 优先**。两处 baseurl �
 - `content/` 下的 `project`、`publication`、`talk`、`courses`、`slides` 等大多是 Academic 自带的示例内容，首页没有启用。
 
 ### 我的作品（产品页）与 Releases
-- 产品页：`content/product/<product>/`（`pp-writer`、`pp-runner`），`index.md` 是 `type: widget_page`，同目录的 `appinfo.md`（App 关于区：Logo、名称、副标题、标语，模板 `app_about`）、`hero.md`、`intro.md`（featurette）、`download.md`、`whatsnew.md` 是页面区块，区块的页内锚点就是文件名。
+- 产品页：`content/product/<product>/`（`pp-writer`、`pp-runner`），`index.md` 是 `type: widget_page`，同目录的 `appinfo.md`（App 关于区：Logo、名称、副标题、标语，模板 `app_about`，带入场与打字机动画）、`showcase.md`（产品截图轮播，模板 `app_showcase`，`frame: phone|mac`，截图放在同目录 `showcase-*.png`）、`hero.md`、`intro.md`（featurette）、`download.md`、`whatsnew.md` 是页面区块，区块的页内锚点就是文件名。
 - **区块里的页内链接要写完整路径**（如 `/product/pp-writer/#whatsnew`），不能只写 `#whatsnew`：主题的 hero 等 widget 会对链接做 `relLangURL`，`#whatsnew` 会变成 `/#whatsnew`，跳到首页去。`check-products-build.sh` 断言 #11 会检查这一点。
 - 改完页面后在浏览器里检查时，**每个新增的按钮和链接都要实际点一次**，不能只看页面显示是否正常。
+- 产品截图只能用设计稿或虚构示例数据渲染的图，**不要用真机或真实笔记截图**（会带出真实记录、位置、他人姓名、笔记内容）；放进仓库前逐张人工检查，并确认 PNG 没有文本元数据。
 - Releases：`content/releases/<product>/<YYYY>-w<WW>/index.md`，每周一次发布。功能小节写在 front matter 的 `items`（`id`、`category`、`summary`、`detail`）里，**这是唯一来源**：产品页「新功能」显示 `summary` 并链接到 `详情页#id`，详情页显示 `detail`。格式见 `specs/001-my-products-menu/contracts/content-schema.md`。
 - 自定义模板：`layouts/partials/widgets/{download,release_notes}.html`、`layouts/releases/{list,single}.html`；样式在 `assets/css/custom.css`（由 `params.toml` 的 `plugins_css = ["custom"]` 加载，暗色用 `.dark` 选择器）。不要改主题的 sass，否则已提交的 `resources/_gen/` 缓存会失效。
 - Releases 内容整理自私有项目 pp-cloud 的开发记录：新发布一律先写成 `draft: true`，站长审阅通过后再改为 `false`。

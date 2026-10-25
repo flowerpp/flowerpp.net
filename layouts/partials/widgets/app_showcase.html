@@ -1,0 +1,67 @@
+{{/* 产品截图展示：设备外框（frame: phone 手机外框 | mac 圆角窗口阴影，截图本身已带窗口按钮）里多张截图自动交叉淡入切换，下方标签可点击切换。
+     slides: [{image: 产品页 bundle 内的图片文件名, caption: 标签文字}]；interval 为切换间隔（毫秒，默认 3500）。
+     悬停 / 聚焦时暂停，页面不可见时暂停；系统开启「减少动态效果」时不自动播放。 */}}
+{{ $root := .root }}
+{{ $page := .page }}
+{{ $frame := $page.Params.frame | default "phone" }}
+{{ $max := cond (eq $frame "mac") 1200 960 }}
+
+<div class="showcase showcase-{{ $frame }}" data-interval="{{ $page.Params.interval | default 3500 }}">
+  {{ with $page.Title }}<h2 class="showcase-title">{{ . }}</h2>{{ end }}
+  <div class="showcase-frame">
+    <div class="showcase-screen">
+      {{ range $i, $s := $page.Params.slides }}
+        {{ with $root.Resources.GetMatch $s.image }}
+          {{ $img := . }}
+          {{ if gt .Width $max }}{{ $img = .Resize (printf "%dx" $max) }}{{ end }}
+          <img class="showcase-img{{ if eq $i 0 }} is-active{{ end }}" src="{{ $img.RelPermalink }}" alt="{{ $s.caption }}" {{ if gt $i 0 }}loading="lazy"{{ end }}>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+  <div class="showcase-tabs" role="tablist" aria-label="产品截图">
+    {{ range $i, $s := $page.Params.slides }}
+    <button type="button" class="showcase-tab{{ if eq $i 0 }} is-active{{ end }}" role="tab" aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" data-index="{{ $i }}">{{ $s.caption }}</button>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function () {
+  var box = document.currentScript && document.currentScript.previousElementSibling;
+  if (!box || !box.classList.contains('showcase')) return;
+  var imgs = box.querySelectorAll('.showcase-img');
+  var tabs = box.querySelectorAll('.showcase-tab');
+  if (imgs.length < 2) return;
+  var cur = 0, timer = null, paused = false;
+  var interval = parseInt(box.getAttribute('data-interval'), 10) || 3500;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function show(i) {
+    cur = (i + imgs.length) % imgs.length;
+    for (var k = 0; k < imgs.length; k++) {
+      imgs[k].classList.toggle('is-active', k === cur);
+      if (tabs[k]) {
+        tabs[k].classList.toggle('is-active', k === cur);
+        tabs[k].setAttribute('aria-selected', k === cur ? 'true' : 'false');
+      }
+    }
+  }
+  function start() {
+    stop();
+    if (reduce || paused || document.hidden) return;
+    timer = setInterval(function () { show(cur + 1); }, interval);
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+  for (var t = 0; t < tabs.length; t++) {
+    tabs[t].addEventListener('click', function () { show(parseInt(this.getAttribute('data-index'), 10)); start(); });
+  }
+  box.addEventListener('mouseenter', function () { paused = true; stop(); });
+  box.addEventListener('mouseleave', function () { paused = false; start(); });
+  box.addEventListener('focusin', function () { paused = true; stop(); });
+  box.addEventListener('focusout', function () { paused = false; start(); });
+  document.addEventListener('visibilitychange', start);
+  start();
+})();
+</script>

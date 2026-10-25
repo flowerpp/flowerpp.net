@@ -1,23 +1,47 @@
 {{/* App 关于区：与 App 内「关于」一致的 Logo + 名称 + 副标题 + 标语。
-     Logo 二选一：logo（产品页 bundle 内的图片文件名）或 logo_icon + logo_color（Font Awesome 图标画在圆角色块上） */}}
+     Logo 二选一：logo（产品页 bundle 内的图片文件名）或 logo_icon + logo_color（Font Awesome 图标画在圆角色块上）。
+     入场动画：Logo、名称淡入上浮 → 副标题打字机 → 标语淡入（app-animate；系统开启「减少动态效果」时直接显示）。
+     副标题完整文字保留在 .tw-ghost 里（无 JS、读屏、搜索引擎都能看到），.tw-live 叠在上面逐字显示。 */}}
 {{ $root := .root }}
 {{ $page := .page }}
 
-<div class="app-about text-center">
+<div class="app-about app-animate text-center">
   {{ with $page.Params.logo }}
     {{ with $root.Resources.GetMatch . }}
       {{ $img := .Resize "256x" }}
-      <img class="app-logo" src="{{ $img.RelPermalink }}" width="128" height="128" alt="{{ $page.Title }}">
+      <img class="app-logo anim-rise" src="{{ $img.RelPermalink }}" width="128" height="128" alt="{{ $page.Title }}">
     {{ end }}
   {{ else }}
     {{ with $page.Params.logo_icon }}
     {{ $pack := $page.Params.logo_icon_pack | default "fas" }}
-    <div class="app-logo app-logo-tile" style="background-color: {{ $page.Params.logo_color | default "#3f51b5" | safeCSS }};">
+    <div class="app-logo app-logo-tile anim-rise" style="background-color: {{ $page.Params.logo_color | default "#3f51b5" | safeCSS }};">
       <i class="{{ $pack }} fa-{{ . }}" aria-hidden="true"></i>
     </div>
     {{ end }}
   {{ end }}
-  <h1 class="app-name">{{ $page.Title }}</h1>
-  {{ with $page.Params.subtitle }}<p class="app-subtitle">{{ . }}</p>{{ end }}
-  {{ with $page.Params.slogan }}<p class="app-slogan">{{ . }}</p>{{ end }}
+  <h1 class="app-name anim-rise anim-delay-1">{{ $page.Title }}</h1>
+  {{ with $page.Params.subtitle }}
+  <p class="app-subtitle anim-typewriter" data-typewriter="{{ . }}"><span class="tw-ghost">{{ . }}</span><span class="tw-live" aria-hidden="true"></span></p>
+  {{ end }}
+  {{ with $page.Params.slogan }}<p class="app-slogan anim-rise anim-delay-3">{{ . }}</p>{{ end }}
 </div>
+
+<script>
+(function () {
+  var box = document.currentScript && document.currentScript.previousElementSibling;
+  if (!box || !box.classList.contains('app-about')) return;
+  var el = box.querySelector('.anim-typewriter');
+  if (!el) return;
+  var live = el.querySelector('.tw-live');
+  var text = el.getAttribute('data-typewriter') || '';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !live) { el.classList.add('tw-done'); return; }
+  el.classList.add('tw-running');
+  var chars = Array.from(text), i = 0;
+  setTimeout(function step() {
+    i += 1;
+    live.textContent = chars.slice(0, i).join('');
+    if (i < chars.length) { setTimeout(step, 90); } else { el.classList.add('tw-done'); }
+  }, 650);
+})();
+</script>
