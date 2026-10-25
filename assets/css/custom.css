@@ -274,3 +274,9 @@
 @media (prefers-reduced-motion: reduce) {
   .showcase-img { transition: none; transform: none; }
 }
+
+/* 下载卡片的安装提示 */
+.download-note {
+  font-size: .9rem;
+  line-height: 1.5;
+}

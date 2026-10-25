@@ -1,7 +1,7 @@
-{{/* 下载区块：按平台列出获取方式。数据来自区块 front matter 的 platforms 数组（见 specs/001-my-products-menu/contracts/content-schema.md） */}}
+{{/* 下载区块：按平台列出获取方式。数据来自区块 front matter 的 platforms 数组（可选 size、note），releases_url 为「查看全部版本」链接（见 specs/001-my-products-menu/contracts/content-schema.md） */}}
 {{ $page := .page }}
 
-<div class="row">
+<div class="row justify-content-center">
   {{ with $page.Title }}
   <div class="col-12 section-heading">
     <h1>{{ . | markdownify | emojify }}</h1>
@@ -26,17 +26,24 @@
           <p class="text-muted mb-3">
             {{ with .version }}版本 {{ . }}{{ end }}
             {{ with .updated }} · 更新于 {{ dateFormat "2006-01-02" . }}{{ end }}
+            {{ with .size }} · {{ . }}{{ end }}
           </p>
-          {{ with .note }}<p>{{ . | markdownify }}</p>{{ end }}
-          <a class="btn btn-primary download-btn" href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+          <a class="btn btn-primary download-btn" href="{{ .url | safeURL }}">
             <i class="fas fa-download pr-1" aria-hidden="true"></i>下载
           </a>
+          {{ with .note }}<p class="download-note text-muted mt-3 mb-0">{{ . | markdownify }}</p>{{ end }}
         {{ else }}
           <p class="mb-3">{{ .note | default "内测中，暂未开放下载" | markdownify }}</p>
           <a class="btn btn-outline-primary" href="{{ "/#about" | relLangURL }}">联系我</a>
         {{ end }}
       </div>
     </div>
+  </div>
+  {{ end }}
+
+  {{ with $page.Params.releases_url }}
+  <div class="col-12 text-center">
+    <a href="{{ . | safeURL }}" target="_blank" rel="noopener">查看全部版本<i class="fas fa-angle-right pl-1"></i></a>
   </div>
   {{ end }}
 </div>

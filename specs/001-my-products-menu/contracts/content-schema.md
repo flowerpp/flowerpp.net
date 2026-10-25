@@ -42,6 +42,7 @@ headless: true
 active: true
 weight: 30
 title: "下载"
+releases_url: https://github.com/flowerpp/pp-releases/releases   # 可选，区块底部「查看全部版本」
 platforms:
   - name: "Android"          # 必填
     icon: android            # 可选，Font Awesome 图标名（icon_pack 默认 fab）
@@ -49,13 +50,15 @@ platforms:
     version: "1.0.0"         # 可选
     updated: 2026-10-11      # 可选
     url: ""                  # status = available 时必填；beta 时必须为空
+    size: "5.5 MB"           # 可选，文件大小
     note: ""                 # 可选，覆盖默认说明文字
 ---
 ```
 
 渲染规则：
 - `status: beta` → 显示「内测中，暂未开放下载」（或 `note`），以及「联系我」链接（`/#about`）；不显示下载按钮。
-- `status: available` → 显示版本号、更新日期和「下载」按钮（`url`）。
+- `status: available` → 显示版本号、更新日期、文件大小和「下载」按钮（`url`），`note` 作为安装提示显示在按钮下方。
+- 安装包发布在 GitHub 仓库 `flowerpp/pp-releases` 的 Releases；更新版本时改 `version`、`updated`、`size`、`url` 四个字段。
 
 ### `whatsnew.md`（新增 widget）
 

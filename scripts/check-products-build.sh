@@ -89,19 +89,23 @@ for p in $PRODUCTS; do
   fi
 done
 
-# 断言 #5：下载区块全部为内测，没有下载按钮
+# 断言 #5：下载区块每个平台都有下载按钮，指向 GitHub Release 安装包；不再显示「内测中」；有「查看全部版本」
 for p in $PRODUCTS; do
   f="$OUT/product/$p/index.html"
   [ -f "$f" ] || { fail "#5 /product/$p/ 不存在，无法检查下载"; continue; }
-  dl=$(flat "$f" | sed -n 's/.*id="download"\(.*\)/\1/p' | sed 's/<section.*//')
+  dl=$(flat "$f" | sed -n 's/.*id="download"\(.*\)/\1/p' | sed 's/<\/section>.*//')
+  cards=$(grep -o 'download-card' <<<"$dl" | wc -l | tr -d ' ')
+  btns=$(grep -oE 'class="btn btn-primary download-btn" href="https://github\.com/flowerpp/pp-releases/releases/download/[^"]+\.(apk|dmg)"' <<<"$dl" | wc -l | tr -d ' ')
   if [ -z "$dl" ]; then
     fail "#5 /product/$p/ 没有下载区块 (#download)"
-  elif grep -q 'download-btn' <<<"$dl"; then
-    fail "#5 /product/$p/ 下载区块出现了下载按钮（当前应全部为内测）"
-  elif ! grep -q '内测中，暂未开放下载' <<<"$dl"; then
-    fail "#5 /product/$p/ 下载区块缺少「内测中，暂未开放下载」"
+  elif grep -q '内测中' <<<"$dl"; then
+    fail "#5 /product/$p/ 下载区块仍显示「内测中」"
+  elif [ "$cards" -eq 0 ] || [ "$btns" -ne "$cards" ]; then
+    fail "#5 /product/$p/ 下载按钮数 ${btns} 与平台数 ${cards} 不一致，或链接不是 pp-releases 的安装包"
+  elif ! grep -q 'href="https://github.com/flowerpp/pp-releases/releases"' <<<"$dl"; then
+    fail "#5 /product/$p/ 缺少「查看全部版本」链接"
   else
-    pass "#5 /product/$p/ 下载区块为内测状态，无下载按钮"
+    pass "#5 /product/$p/ ${cards} 个平台都有下载按钮，指向 GitHub Release 安装包"
   fi
 done
 
