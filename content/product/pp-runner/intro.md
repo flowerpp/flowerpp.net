@@ -3,7 +3,7 @@ widget: featurette
 headless: true
 active: true
 weight: 20
-title: "产品介绍"
+title: "作品介绍"
 subtitle: "专心跑步，数据交给 PP-Runner"
 feature:
   - icon: route

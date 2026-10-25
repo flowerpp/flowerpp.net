@@ -116,10 +116,6 @@
 .dark .app-about .app-subtitle { color: rgba(255, 255, 255, .7); }
 .dark .app-about .app-slogan { color: rgba(255, 255, 255, .55); }
 
-/* 产品页标题区：大标题与顶部 App 关于区重复，隐藏，只保留介绍文字和按钮 */
-.product-hero .hero-title {
-  display: none;
-}
 
 /* Releases 配图：多张并排；竖图（手机截图）限宽，不放大 */
 .release-figures {
@@ -163,6 +159,8 @@
 }
 .app-animate .anim-delay-1 { animation-delay: .15s; }
 .app-animate .anim-delay-3 { animation-delay: 1.7s; }
+.app-animate .anim-delay-4 { animation-delay: 1.95s; }
+.app-animate .anim-delay-5 { animation-delay: 2.2s; }
 .anim-typewriter {
   position: relative;
 }
@@ -280,3 +278,45 @@
   font-size: .9rem;
   line-height: 1.5;
 }
+
+/* App 关于区：产品简介 + 页内导航按钮（参考 Notion 首页的主次按钮） */
+.app-about .app-lead {
+  max-width: 640px;
+  margin: 1.75rem auto 0;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+.app-about .app-lead p { margin-bottom: .25rem; }
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+  margin-top: 1.75rem;
+}
+.app-nav-btn {
+  display: inline-block;
+  padding: .55rem 1.35rem;
+  border-radius: 8px;
+  font-weight: 600;
+  background: rgba(63, 81, 181, .1);
+  color: #3f51b5;
+  transition: background-color .2s, color .2s, transform .2s;
+}
+.app-nav-btn:hover {
+  background: rgba(63, 81, 181, .18);
+  color: #3f51b5;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.app-nav-btn.is-primary {
+  background: #3f51b5;
+  color: #fff;
+}
+.app-nav-btn.is-primary:hover {
+  background: #303f9f;
+  color: #fff;
+}
+.dark .app-nav-btn { background: rgba(140, 158, 255, .15); color: #c5cae9; }
+.dark .app-nav-btn:hover { background: rgba(140, 158, 255, .25); color: #fff; }
+.dark .app-nav-btn.is-primary { background: #5c6bc0; color: #fff; }

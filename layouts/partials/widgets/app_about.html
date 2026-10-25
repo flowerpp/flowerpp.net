@@ -1,6 +1,6 @@
 {{/* App 关于区：与 App 内「关于」一致的 Logo + 名称 + 副标题 + 标语。
      Logo 二选一：logo（产品页 bundle 内的图片文件名）或 logo_icon + logo_color（Font Awesome 图标画在圆角色块上）。
-     入场动画：Logo、名称淡入上浮 → 副标题打字机 → 标语淡入（app-animate；系统开启「减少动态效果」时直接显示）。
+     入场动画：Logo、名称淡入上浮 → 副标题打字机 → 标语、简介（lead）、页内导航按钮（nav: [{label, anchor, primary}]）依次淡入（app-animate；系统开启「减少动态效果」时直接显示）。
      副标题完整文字保留在 .tw-ghost 里（无 JS、读屏、搜索引擎都能看到），.tw-live 叠在上面逐字显示。 */}}
 {{ $root := .root }}
 {{ $page := .page }}
@@ -24,6 +24,15 @@
   <p class="app-subtitle anim-typewriter" data-typewriter="{{ . }}"><span class="tw-ghost">{{ . }}</span><span class="tw-live" aria-hidden="true"></span></p>
   {{ end }}
   {{ with $page.Params.slogan }}<p class="app-slogan anim-rise anim-delay-3">{{ . }}</p>{{ end }}
+  {{ with $page.Params.lead }}<div class="app-lead anim-rise anim-delay-4">{{ . | markdownify }}</div>{{ end }}
+  {{ with $page.Params.nav }}
+  <nav class="app-nav anim-rise anim-delay-5" aria-label="页内导航">
+    {{ range . }}
+    {{/* 链接 = 本页地址 + 锚点（完整路径，避免被改成首页锚点） */}}
+    <a class="app-nav-btn{{ if .primary }} is-primary{{ end }}" href="{{ printf "%s#%s" $root.RelPermalink .anchor }}">{{ .label }}</a>
+    {{ end }}
+  </nav>
+  {{ end }}
 </div>
 
 <script>

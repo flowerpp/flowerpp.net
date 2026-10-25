@@ -3,7 +3,7 @@ widget: featurette
 headless: true
 active: true
 weight: 20
-title: "产品介绍"
+title: "作品介绍"
 subtitle: "专注写作，其余的交给小纸条"
 feature:
   - icon: markdown

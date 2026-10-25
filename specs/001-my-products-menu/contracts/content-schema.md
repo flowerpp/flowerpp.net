@@ -16,8 +16,9 @@ type: widget_page                   # 必填：按区块渲染
 
 | 文件 | `widget` | `weight` | 页内锚点 | 说明 |
 |------|----------|----------|----------|------|
-| `hero.md` | `hero`（主题自带） | 10 | `#hero` | 产品名 + 一句话定位；`cta` → `/product/<product>/#download`，`cta_alt` → `/product/<product>/#whatsnew`（必须写完整路径：主题会对链接做 `relLangURL`，只写 `#download` 会变成首页的 `/#download`） |
-| `intro.md` | `featurette`（主题自带） | 20 | `#intro` | `title: 产品介绍`；`feature[]` 3–6 项 |
+| `appinfo.md` | `app_about`（新增） | 5 | `#appinfo` | Logo、名称、副标题（打字机）、标语、简介 `lead`、导航按钮 `nav: [{label, anchor, primary}]`（快速演示 / 作品介绍 / 下载使用 / 新功能，链接由模板拼成本页完整路径）；原 `hero.md` 已合并进来 |
+| `showcase.md` | `app_showcase`（新增） | 7 | `#showcase` | 截图轮播，`frame: phone｜mac`，`slides: [{image, caption}]` |
+| `intro.md` | `featurette`（主题自带） | 20 | `#intro` | `title: 作品介绍`；`feature[]` 3–6 项 |
 | `download.md` | `download`（新增） | 30 | `#download` | 见下 |
 | `whatsnew.md` | `release_notes`（新增） | 40 | `#whatsnew` | 见下 |
 

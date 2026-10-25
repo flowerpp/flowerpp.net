@@ -60,8 +60,9 @@ for p in $PRODUCTS; do
   first=$(grep -oE '<section id="[a-z_-]+"' <<<"$page" | head -1)
   info=$(sed -n 's/.*id="appinfo"\(.*\)/\1/p' <<<"$page" | sed 's/<\/section>.*//')
   if [ "$first" = '<section id="appinfo"' ] && grep -q 'app-logo' <<<"$info" \
-     && grep -q 'app-name' <<<"$info" && grep -q 'app-subtitle' <<<"$info" && grep -q 'app-slogan' <<<"$info"; then
-    pass "#12 /product/$p/ 第一个区块是 App 关于区（Logo、名称、副标题、标语齐全）"
+     && grep -q 'app-name' <<<"$info" && grep -q 'app-subtitle' <<<"$info" && grep -q 'app-slogan' <<<"$info" \
+     && grep -q 'class="app-lead' <<<"$info"; then
+    pass "#12 /product/$p/ 第一个区块是 App 关于区（Logo、名称、副标题、标语、简介齐全）"
   else
     fail "#12 /product/$p/ 第一个区块不是完整的 App 关于区（第一个区块: ${first:-无}）"
   fi
@@ -76,16 +77,16 @@ for p in $PRODUCTS; do
   fi
 done
 
-# 断言 #4：产品介绍卡片数 3–6
+# 断言 #4：作品介绍卡片数 3–6
 for p in $PRODUCTS; do
   f="$OUT/product/$p/index.html"
-  [ -f "$f" ] || { fail "#4 /product/$p/ 不存在，无法检查产品介绍"; continue; }
+  [ -f "$f" ] || { fail "#4 /product/$p/ 不存在，无法检查作品介绍"; continue; }
   intro=$(flat "$f" | sed -n 's/.*id="intro"\(.*\)/\1/p' | sed 's/<section.*//')
   n=$(grep -o 'featurette-icon' <<<"$intro" | wc -l | tr -d ' ')
   if [ "$n" -ge 3 ] && [ "$n" -le 6 ]; then
-    pass "#4 /product/$p/ 产品介绍有 $n 张能力卡片"
+    pass "#4 /product/$p/ 作品介绍有 $n 张能力卡片"
   else
-    fail "#4 /product/$p/ 产品介绍能力卡片数为 ${n}（应为 3–6）"
+    fail "#4 /product/$p/ 作品介绍能力卡片数为 ${n}（应为 3–6）"
   fi
 done
 
@@ -118,7 +119,7 @@ for p in $PRODUCTS; do
   d=$(grep -bo 'id="download"' <<<"$page" | head -1 | cut -d: -f1)
   n=$(grep -bo 'id="whatsnew"' <<<"$page" | head -1 | cut -d: -f1)
   if [ -n "$i" ] && [ -n "$d" ] && [ -n "$n" ] && [ "$i" -lt "$d" ] && [ "$d" -lt "$n" ]; then
-    pass "#3 /product/$p/ 依次含产品介绍、下载、新功能三个区块"
+    pass "#3 /product/$p/ 依次含作品介绍、下载、新功能三个区块"
   else
     fail "#3 /product/$p/ 缺少区块或顺序不对（intro=${i} download=${d} whatsnew=${n}）"
   fi
@@ -158,29 +159,39 @@ for p in $PRODUCTS; do
   fi
 done
 
-# 断言 #11：标题区按钮跳到本页的「下载」「新功能」区块（不能变成首页锚点 /#xxx）
+# 断言 #11：关于区的导航按钮依次为「快速演示 / 作品介绍 / 下载使用 / 新功能」，链接写本页完整路径且目标区块存在
+#   （只写 #xxx 会被主题 relLangURL 改成首页锚点 /#xxx）
 for p in $PRODUCTS; do
   f="$OUT/product/$p/index.html"
   [ -f "$f" ] || continue
-  hero=$(flat "$f" | sed -n 's/.*id="hero"\(.*\)/\1/p' | sed 's/<\/section>.*//')
-  for anchor in download whatsnew; do
-    if grep -q "href=\"/product/$p/#$anchor\"" <<<"$hero" && grep -q "id=\"$anchor\"" "$f"; then
-      pass "#11 /product/$p/ 标题区按钮跳到本页 #$anchor"
-    else
-      got=$(grep -oE "href=\"[^\"]*#$anchor\"" <<<"$hero" | head -1)
-      fail "#11 /product/$p/ 标题区按钮没有跳到本页 #${anchor}（实际: ${got:-无}）"
-    fi
-  done
+  info=$(flat "$f" | sed -n 's/.*id="appinfo"\(.*\)/\1/p' | sed 's/<\/section>.*//')
+  got=$(grep -oE 'class="app-nav-btn[^"]*" href="[^"]+"[^>]*>[^<]+' <<<"$info" | sed -E 's/.*href="([^"]+)"[^>]*>(.*)/\2=\1/' | tr '\n' ' ')
+  want="快速演示=/product/$p/#showcase 作品介绍=/product/$p/#intro 下载使用=/product/$p/#download 新功能=/product/$p/#whatsnew "
+  missing=""
+  for a in showcase intro download whatsnew; do grep -q "id=\"$a\"" "$f" || missing="$missing #$a"; done
+  if [ "$got" = "$want" ] && [ -z "$missing" ]; then
+    pass "#11 /product/$p/ 关于区导航按钮齐全、顺序正确，都跳到本页区块"
+  else
+    fail "#11 /product/$p/ 导航按钮不符（实际: ${got:-无}；缺少区块:${missing:-无}）"
+  fi
 done
 
-# 断言 #13：标题区不再显示与 App 关于区重复的大标题（区块带 product-hero 类，由 custom.css 隐藏 .hero-title）
+# 断言 #17：用词统一为「作品介绍」，产品页与 Releases 页不再出现「产品介绍」
+left=$(grep -rl '产品介绍' "$OUT/product" "$OUT/releases" 2>/dev/null | sed "s#$OUT##" | tr '\n' ' ')
+if [ -z "$left" ]; then
+  pass "#17 产品页与 Releases 页统一使用「作品介绍」"
+else
+  fail "#17 仍出现「产品介绍」: ${left}"
+fi
+
+# 断言 #13：旧的标题区（hero）已合并进关于区，页面上不再出现
 for p in $PRODUCTS; do
   f="$OUT/product/$p/index.html"
   [ -f "$f" ] || continue
-  if grep -qE '<section id="hero" class="[^"]*product-hero' "$f" && grep -rqs 'product-hero .hero-title' "$OUT"/css/; then
-    pass "#13 /product/$p/ 标题区隐藏了重复的大标题"
+  if grep -q '<section id="hero"' "$f"; then
+    fail "#13 /product/$p/ 仍有旧的标题区 (#hero)"
   else
-    fail "#13 /product/$p/ 标题区仍显示重复的大标题"
+    pass "#13 /product/$p/ 旧标题区已合并进关于区"
   fi
 done
 
